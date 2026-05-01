@@ -26,7 +26,7 @@ router.get('/', auth(['ADMIN', 'CUISINE', 'BAR']), async (req, res) => {
 });
 
 // Admin — marquer un joueur payé/non payé
-router.patch('/:id/players/:playerIdx', auth(['ADMIN']), async (req, res) => {
+router.patch('/:id/players/:playerIdx', auth(['ADMIN', 'BAR']), async (req, res) => {
   const session = await FutsalSession.findById(req.params.id);
   if (!session) return res.status(404).json({ error: 'Session introuvable' });
   const idx = parseInt(req.params.playerIdx);
@@ -38,7 +38,7 @@ router.patch('/:id/players/:playerIdx', auth(['ADMIN']), async (req, res) => {
 });
 
 // Admin — fermer/rouvrir une session
-router.patch('/:id/close', auth(['ADMIN']), async (req, res) => {
+router.patch('/:id/close', auth(['ADMIN', 'BAR']), async (req, res) => {
   const session = await FutsalSession.findById(req.params.id);
   if (!session) return res.status(404).json({ error: 'Session introuvable' });
   session.closed = !session.closed;
@@ -48,7 +48,7 @@ router.patch('/:id/close', auth(['ADMIN']), async (req, res) => {
 });
 
 // Admin — supprimer une session
-router.delete('/:id', auth(['ADMIN']), async (req, res) => {
+router.delete('/:id', auth(['ADMIN', 'BAR']), async (req, res) => {
   await FutsalSession.findByIdAndDelete(req.params.id);
   req.app.get('io')?.emit('futsal:session:delete', { id: req.params.id });
   res.json({ ok: true });
