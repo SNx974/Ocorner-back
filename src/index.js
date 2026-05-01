@@ -26,6 +26,7 @@ app.use('/api/birthdays', require('./routes/birthdays'));
 app.use('/api/futsal', require('./routes/futsal'));
 app.use('/api/announcements', require('./routes/announcements'));
 
+app.use('/api/settings', require('./routes/settings'));
 app.get('/api/health', (req, res) => res.json({ ok: true, time: new Date() }));
 
 io.on('connection', (socket) => {
