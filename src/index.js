@@ -26,8 +26,11 @@ app.use('/api/birthdays', require('./routes/birthdays'));
 app.use('/api/futsal', require('./routes/futsal'));
 app.use('/api/announcements', require('./routes/announcements'));
 
+app.use('/api/futsal-sessions', require('./routes/futsalSessions'));
 app.use('/api/settings', require('./routes/settings'));
 app.get('/api/health', (req, res) => res.json({ ok: true, time: new Date() }));
+
+app.set('io', io);
 
 io.on('connection', (socket) => {
   socket.on('admin:update', (data) => {
