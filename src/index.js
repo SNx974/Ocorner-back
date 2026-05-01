@@ -45,10 +45,17 @@ cron.schedule('* * * * *', () => {
 
 async function seedAdmin() {
   const User = require('./models/User');
-  const count = await User.countDocuments();
-  if (count === 0) {
-    await User.create({ username: 'admin', password: 'admin123', role: 'ADMIN' });
-    console.log('✅ Admin créé : admin / admin123');
+  const seeds = [
+    { username: 'admin',   password: 'admin123',   role: 'ADMIN' },
+    { username: 'cuisine', password: 'cuisine123', role: 'CUISINE' },
+    { username: 'bar',     password: 'bar123',     role: 'BAR' },
+  ];
+  for (const seed of seeds) {
+    const exists = await User.findOne({ username: seed.username });
+    if (!exists) {
+      await User.create(seed);
+      console.log(`✅ Compte créé : ${seed.username} / ${seed.password}`);
+    }
   }
 }
 
